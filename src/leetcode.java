@@ -1,16 +1,37 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List; 
+import java.util.List;
+
+import javafx.scene.transform.Rotate; 
 
 public class leetcode {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Codec codec = new Codec();
-		List<String> a = new ArrayList<String>();
-		a.add("");
-		codec.decode(codec.encode(a));
+		int[] a = {1,2};
+		rotate(a,1);
+		System.out.println(a[0]+"  "+a[1]);
 	}	
+	
+	
+	public static void rotate(int[] nums, int k) {
+        int[] a = new int[nums.length];
+        for(int i = 0; i< nums.length; i++){
+            if((i + k)<(nums.length)){
+                System.out.println(i);
+            	a[i+k] = nums[i];
+            }else{
+                System.out.println(i);
+
+                a[(i+k)%nums.length] = nums[i];
+            }
+        }
+		System.out.println(a[0]+" ==== "+a[1]);
+
+        nums = a;
+    }
+
+	
 	
 	public void getComb(int[] a, int n ,int begin, int[] b, int index){
 		if( n==0 ){
