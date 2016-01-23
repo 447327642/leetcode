@@ -1,13 +1,32 @@
-import java.util.Arrays; 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List; 
 
 public class leetcode {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] nums = {1,0,2,3,0,4};
-		moveZeroes(nums);
-		System.out.println(Arrays.toString(nums));
+		Codec codec = new Codec();
+		List<String> a = new ArrayList<String>();
+		a.add("");
+		codec.decode(codec.encode(a));
+	}	
+	
+	public void getComb(int[] a, int n ,int begin, int[] b, int index){
+		if( n==0 ){
+			for(int i = 0; i < index; i++){
+				System.out.println(b[i] + "");
+			}
+			System.out.println();
+			return;
+		}
+		
+		for(int i = begin; i < a.length; i++){
+			b[index] = a[i];
+			getComb(a, n-1, n - 1, b, index+1);
+		}
 	}
+	
 	
 	//09-29
 	public static int addDigits(int num) {
@@ -56,3 +75,4 @@ public class leetcode {
         }
     }
 }
+
