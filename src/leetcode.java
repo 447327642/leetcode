@@ -3,6 +3,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Stack;
 
 import javafx.scene.transform.Rotate; 
 
@@ -10,8 +11,80 @@ public class leetcode {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println(getHint("11","11"));
+
+		System.out.println(addBinary("0", "1"));
 	}	
+	
+	public static String addBinary(String a, String b) {
+        char[] ac = a.toCharArray();
+        char[] bc = b.toCharArray();
+        int an = ac.length;
+        int bn = bc.length;
+        Stack<Character> stack = new Stack<>();
+        int min = Math.min(an,bn);
+        int i = 0;
+        char cnt = '0';
+        while(i <= min-1){
+            if(ac[an-i-1] == '0' && bc[bn-i-1] == '0'){
+                stack.push(cnt);
+                cnt = '0';
+            }else if(ac[an-i-1] == '1' && bc[bn-i-1] == '1'){
+                stack.push(cnt);
+                cnt = '1';
+            }else{
+                if(cnt == '1'){
+                    stack.push('0');
+                    cnt = '1';
+                }else{
+                	System.out.println("====");
+                    stack.push('1');
+                    cnt = '0';
+                }
+            }
+            i++;
+        }
+        if(min == an){
+            int k = 1;
+            while(bn-an-k >=0 ){
+                if(bc[bn-an-k] == '0'){
+                    stack.push(cnt);
+                    cnt = '0';
+                }else if(cnt == '1'){
+                    stack.push('0');
+                    cnt = '1';
+                }else if(cnt == '0'){
+                    stack.push('1');
+                    cnt = '0';
+                }
+                k++;
+            }
+        }else{
+            int k = 1;
+            while(an-bn-k >=0 ){
+                if(ac[an-bn-k] == '0'){
+                    stack.push(cnt);
+                    cnt = '0';
+                }else{
+                    if(cnt == '1'){
+                        stack.push('0');
+                        cnt = '1';
+                    }if(cnt == '0'){
+                        stack.push('1');
+                        cnt = '0';
+                    }
+                }
+                k++;
+            }
+        }
+        if(cnt == '1'){
+            stack.push('1');
+        }
+        String res = "";
+        while(!stack.isEmpty()){
+            res += stack.pop();
+        }
+        return res;
+    }
 	
 	
 	 public static String getHint(String secret, String guess) {
