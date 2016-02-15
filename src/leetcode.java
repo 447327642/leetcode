@@ -2,18 +2,59 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-import javafx.scene.transform.Rotate; 
+import javafx.scene.transform.Rotate;
+import jdk.nashorn.internal.ir.LiteralNode.ArrayLiteralNode.ArrayUnit; 
 
 public class leetcode {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
-		System.out.println(addBinary("0", "1"));
+		int[] a = {1,4,3,-1,0};
+		
+		System.out.println(threeSum(a).get(0).get(0)+" "+threeSum(a).get(0).get(1)+" "+threeSum(a).get(0).get(2));
 	}	
+	
+	public static List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new LinkedList<>(); 
+
+        for(int i = 0; i < nums.length-2; i++){
+            int sum = 0 - nums[0];
+            int l = i+1, h = nums.length-1;
+            while(l < h){
+                if(nums[l]+nums[h] == sum){
+                    res.add(Arrays.asList(nums[i],nums[l],nums[h]));
+                    while(l < h && nums[l] == nums[l+1]) l++;
+                    while(l < h && nums[h] == nums[h - 1]) h--;
+                    l++;
+                    h--;
+                }else if(nums[l] + nums[h] < sum) l++;
+                else h--;
+            }
+        }
+        return res;
+    }
+	
+	public static int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i = 0 ; i < nums.length; i++){
+        	System.out.println(nums[i]);
+            if(map.containsKey(target - nums[i])){
+                 int[] a = {i, map.get(target- nums[i])};
+                 return a;
+            }
+            else{
+            	map.put(nums[i] , i);
+            }
+                
+        }
+        return null;
+    }
+	
 	
 	public static String addBinary(String a, String b) {
         char[] ac = a.toCharArray();
