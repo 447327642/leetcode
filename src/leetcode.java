@@ -1,22 +1,139 @@
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
-
-import javafx.scene.transform.Rotate;
-import jdk.nashorn.internal.ir.LiteralNode.ArrayLiteralNode.ArrayUnit; 
+import java.util.Queue;
+import java.util.Stack; 
 
 public class leetcode {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		int[] a = {1,4,3,-1,0};
+		int[] a = {1,2,3,4,5,6,7};
 		
-		System.out.println(threeSum(a).get(0).get(0)+" "+threeSum(a).get(0).get(1)+" "+threeSum(a).get(0).get(2));
-	}	
+		System.out.println(binarySearch(a, 3));
+	}
+	
+	public static int binarySearch(int[] nums, int t ){
+		int n = nums.length;
+		int lo = 0;
+		int hi = n - 1;
+		while(lo <= hi){
+			int mid = lo + (hi - lo)/2;
+			if(t== nums[mid]) return mid;
+			if(t > nums[mid]) lo = mid + 1;
+			else hi = mid - 1;
+		}
+		return -1;
+	}
+	
+	
+	
+	public static int[] sumArray(int[] a){
+		int[] b = new int[a.length];
+		for(int i = 0; i < a.length-1; i++){
+			b[i] = a[i] + a[i+1]; 
+		}
+		b[a.length-1] = a[0]+a[a.length-1];
+		return b;
+	}
+	
+	
+	
+	public static int fb(int i){
+		if(i == 0)
+			return 0;
+		if(i == 1)
+			return 1;
+		if(i == 2)
+			return 1;
+		
+		return fb(i-2)+fb(i-1);
+	}
+	
+	
+	
+	 private static final String spliter = ",";
+	    private static final String NN = "X";
+	
+	    public static String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        buildString(root, sb);
+        return sb.toString();
+    }
+
+    private static void buildString(TreeNode node, StringBuilder sb) {
+        if (node == null) {
+            sb.append(NN).append(spliter);
+        } else {
+            sb.append(node.val).append(spliter);
+            buildString(node.left, sb);
+            buildString(node.right,sb);
+        }
+    }
+    // Decodes your encoded data to tree.
+    public static TreeNode deserialize(String data) {
+        Deque<String> nodes = new LinkedList<>();
+        nodes.addAll(Arrays.asList(data.split(spliter)));
+        return buildTree(nodes);
+    }
+
+    private  static TreeNode buildTree(Deque<String> nodes) {
+        String val = nodes.poll();
+        if(val != null){
+        	if (val.equals("X")) return null;
+            else {
+                TreeNode node = new TreeNode(Integer.valueOf(val));
+                node.left = buildTree(nodes);
+                node.right = buildTree(nodes);
+                return node;
+            }
+        }
+        return null;
+    }
+	
+	
+	public static String reverseWords(String s) {
+        s = s.trim();
+        String a = "";
+        String[]  temp = s.split(" ");
+        for(String b : temp){
+            if(!b.equals(""))
+                a +=b+" ";
+        }
+        s = a.trim();
+        System.out.println(s);
+        char[] sc = s.toCharArray();
+        int start = 0;
+        for(int i = 0; i < sc.length; i++){
+            if(sc[i] == ' '){
+                help(sc,start,i-1);
+                start = i+1;
+            }
+            if(i == sc.length -1){
+            	help(sc,start, i);
+            }
+        }
+        help(sc,0,sc.length-1);
+        return String.valueOf(sc);
+    }
+    public static void help(char[] s, int start, int end){
+        while(start <= end){
+            char t = s[start];
+            s[start] = s[end];
+            s[end] = t;
+            start++;
+            end--;
+        }
+    }
+	
+	 public static int help(int n){
+	        if(n == 1) return 1;
+	        if(n == 2) return 2;
+	        if(n == 0 ) return 1;
+	        return help(n-1)+help(n-2);
+	    }
 	
 	public static List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
@@ -228,12 +345,6 @@ public class leetcode {
         return num;
     }
 	
-	public class TreeNode {
-	    int val;
-	      TreeNode left;
-	      TreeNode right;
-	      TreeNode(int x) { val = x; }
-	  }
 
 	public int maxDepth(TreeNode root) {
         if(root == null) return 0;
