@@ -4,16 +4,97 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack; 
 
 public class leetcode {
 
 	public static void main(String[] args) {
-		int[] a = {1,2,3,4,5,6,7};
 		
-		System.out.println(binarySearch(a, 3));
+		int[] a = {1,1,1,4,5,6};
+		wiggleSort(a);
+		for(int i : a){
+			System.out.println(i);
+		}
+		
+		
 	}
+	
+	public static void wiggleSort(int[] nums) {
+        Arrays.sort(nums);
+        int[] res = new int[nums.length];
+        for(int i = 0; i < nums.length; i++){
+            if(i%2 == 0)
+                res[i] = nums[i/2];
+            else res[i] = nums[nums.length - (i+1)/2];
+        }
+        for(int i = 0; i< nums.length; i++)
+        	nums[i] = res[i];
+    }
+	
+	
+	static String IntersectStrings(String first, String second) {
+        char[] fc = first.toCharArray();
+        char[] sc = second.toCharArray();
+        Arrays.sort(fc);
+        Arrays.sort(sc);
+        StringBuilder br = new StringBuilder();
+        int i = 0;
+        int j = 0;
+        for(; i < fc.length&&j < sc.length; ){
+            if (fc[i] < sc[j]) i++;
+            else if (fc[i] > sc[j]) j++;
+            else {
+                br.append(fc[i]);
+                i++;
+                j++;
+            }
+        }
+       
+        return br.toString();
+
+    }
+	
+	
+	
+	
+	public static int fbmemo(int n, int[] memo){
+		if(n == 0) return 0;
+		if(n == 1) return 1;
+		if(n == 2) return 1;
+		if(memo[n] != 0) {System.out.println("memo!!"); return memo[n]; }
+		return fbmemo(n-1, memo) + fbmemo(n - 2, memo);
+	}
+	
+	
+	public static boolean isSymmetric(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            int n = queue.size();
+            Deque<Integer> d = new LinkedList<>();
+            for(int i = 0; i < n; i++){
+                if(queue.peek().left != null) queue.offer(queue.peek().left);
+                if(queue.peek().right != null) queue.offer(queue.peek().right);
+                d.add(queue.poll().val);
+            }
+            if(!check(d))
+                return false;
+        }
+        return true;
+    }
+    
+    private  static boolean check(Deque<Integer> list){
+        while(!list.isEmpty()){
+           if(list.poll() != list.pop())
+                return false;
+        }
+        return true;
+    }
+	
+	
+	
 	
 	public static int binarySearch(int[] nums, int t ){
 		int n = nums.length;
