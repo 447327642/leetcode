@@ -2,38 +2,105 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Stack; 
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeMap; 
 
 public class leetcode {
 
 	public static void main(String[] args) {
-		
-		int[] a = {1,1,1,4,5,6};
-		wiggleSort(a);
-		for(int i : a){
-			System.out.println(i);
-		}
-		
-		
+		int[][] a = {{1,2,3},{4,5,6},{7,8,9}};
+		System.out.println(spirl(a));
 	}
 	
-	public static void wiggleSort(int[] nums) {
-        Arrays.sort(nums);
-        int[] res = new int[nums.length];
-        for(int i = 0; i < nums.length; i++){
-            if(i%2 == 0)
-                res[i] = nums[i/2];
-            else res[i] = nums[nums.length - (i+1)/2];
-        }
-        for(int i = 0; i< nums.length; i++)
-        	nums[i] = res[i];
-    }
+	
+	private static List<Integer> spirl(int[][] a){
+		int bcol = 0;
+		int ecol = a[0].length - 1;
+		int brow = 0;
+		int erow = a.length - 1;
+		LinkedList<Integer> res = new LinkedList<>();
+		while(bcol <= ecol && brow <= erow){
+			for(int i = bcol; i <= ecol; i++){
+				res.add(a[brow][i]);
+			}
+			brow++;
+			for(int i = brow; i <= erow; i++){
+				res.add(a[i][ecol]);
+			}
+			ecol--;
+			for(int i = ecol; i >=bcol; i--){
+				res.add(a[erow][i]);
+			}
+			erow--;
+			for(int i = erow; i >= brow; i--){
+				res.add(a[i][bcol]);
+			}
+			bcol++;
+		}
+		return res;
+	}	
 	
 	
+	private static void levelorder(TreeNode a){
+		Queue<TreeNode> q = new LinkedList<>();
+		q.offer(a);
+		while(!q.isEmpty()){
+			int size = q.size();
+			for(int i = 0; i < size; i++){
+				if(q.peek().left != null) q.offer(q.peek().left);
+				if(q.peek().right != null) q.offer(q.peek().right);
+				System.out.print(q.poll().val);
+			}
+			System.out.println();
+		}
+	}
+	
+	private static void inorder(TreeNode a){
+		Stack<TreeNode> stack = new Stack<>();
+		while(!stack.isEmpty() || a != null){
+			if( a!= null){
+				stack.push(a);
+				a = a.left;
+			}else{
+				a  = stack.pop();
+				System.out.println(a.val);
+				a = a.right;
+			}
+		}
+	}
+	
+	
+	private static void preorder(TreeNode a){
+		Stack<TreeNode> stack = new Stack<>();
+		while(!stack.isEmpty() || a != null){
+			if(a != null){
+				System.out.print(a.val);
+				if(a.right != null)
+					stack.push(a.right);
+				a = a.left;
+			}else{
+				a = stack.pop();
+			}
+		}
+	}
+	
+	
+	private static void helper(TreeNode a){
+		if(a == null) return;
+		helper(a.left);
+		System.out.print(a.val);
+		helper(a.right);
+	}
+	
+
 	static String IntersectStrings(String first, String second) {
         char[] fc = first.toCharArray();
         char[] sc = second.toCharArray();
@@ -56,7 +123,11 @@ public class leetcode {
 
     }
 	
-	
+	public enum a {
+		A(0), B(1);
+		private int value;
+		private a(int i ){ value = i;};
+	}
 	
 	
 	public static int fbmemo(int n, int[] memo){
