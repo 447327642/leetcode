@@ -20,7 +20,6 @@ public class leetcode {
 		System.out.println(spirl(a));
 	}
 	
-	
 	private static List<Integer> spirl(int[][] a){
 		int bcol = 0;
 		int ecol = a[0].length - 1;
@@ -47,7 +46,6 @@ public class leetcode {
 		}
 		return res;
 	}	
-	
 	
 	private static void levelorder(TreeNode a){
 		Queue<TreeNode> q = new LinkedList<>();
@@ -77,7 +75,6 @@ public class leetcode {
 		}
 	}
 	
-	
 	private static void preorder(TreeNode a){
 		Stack<TreeNode> stack = new Stack<>();
 		while(!stack.isEmpty() || a != null){
@@ -91,7 +88,6 @@ public class leetcode {
 			}
 		}
 	}
-	
 	
 	private static void helper(TreeNode a){
 		if(a == null) return;
